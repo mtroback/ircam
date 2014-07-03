@@ -127,12 +127,15 @@ cp www/stream_simple.html www/index.html
 # Install script files
 cp -a $DIR/res/mjpg-streamer.init /etc/init.d/mjpg-streamer
 chmod +x /etc/init.d/mjpg-streamer
-cp -a $DIR/res/mjpg_streamer.sh /home/pi
+cp -a $DIR/res/mjpg_streamer.sh /home/pi/mjpg-streamer/mjpg-streamer-experimental
 chmod a+rwx /home/pi/mjpg_streamer.sh
 update-rc.d mjpg-streamer defaults
 
 # Copy the key press script and make it start at boot 
 cp -a $DIR/res/shutdown_button.py /home/pi
+chmod +x /home/pi/shutdown_button.py
+
+cp -a /etc/rc.local /etc/rc.local.old
 awk '$0 == "exit 0" && c == 0 {c = 1; print "# Poll shutdown button\n/home/pi/shutdown_button.py &\n"}; {print}'  /etc/rc.local > /etc/rc.local
 
 # TODO set up tmpfs folders for common write folder to save SD-writes

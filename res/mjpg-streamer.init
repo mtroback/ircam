@@ -18,6 +18,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DESC="mjpg-streamer Daemon"
 NAME="mjpg-streamer"
 DAEMON=mjpg_streamer.sh
+DAEMON_HOME=/home/pi/mjpg-streamer/mjpg-streamer-experimental
 PIDFILE=/var/run/$NAME.pid
 PKGNAME=mjpg-streamer
 SCRIPTNAME=/etc/init.d/$PKGNAME
@@ -34,12 +35,6 @@ SCRIPTNAME=/etc/init.d/$PKGNAME
 # Define LSB log_* functions.
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
-
-if [ -z "$RUN_AT_STARTUP" -o "$RUN_AT_STARTUP" != "YES" ]
-then
-   log_warning_msg "Not starting $PKGNAME, edit /etc/default/$PKGNAME to start it."
-   exit 0
-fi
 
 #
 # Function to verify if a pid is alive
@@ -82,7 +77,7 @@ do_stop()
    #   2 if daemon could not be stopped
    #   other if a failure occurred
 
-   start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --user $MJPG_STREAMER_USER --pidfile $PIDFILE
+   start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE
    RETVAL="$?"
    [ "$RETVAL" = "2" ] && return 2
 
