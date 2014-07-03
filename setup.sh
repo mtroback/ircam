@@ -99,6 +99,11 @@ set_camera() {
 
 }
 
+if [ $(id -u) -ne 0 ]; then
+  printf "Script must be run as root. Try 'sudo ./setup.sh'\n"
+  exit 1
+fi
+
 # --- End of copied code ---
 
 # Get script directory
