@@ -114,32 +114,29 @@ set_camera
 do_change_hostname
 
 # Install required packages
-aptitude install libjpeg8-dev cmake
+aptitude -y install libjpeg8-dev cmake || exit 1
 
 # Build mjpg-streamer (as user pi)
-su -c "cd && " \
-"git clone https://github.com/jacksonliam/mjpg-streamer.git && " \
-"cd mjpg-streamer/mjpg-streamer-experimental && " \
-"make && echo Done building mjpg-streamer" pi
+su -c "cd && git clone https://github.com/jacksonliam/mjpg-streamer.git && cd mjpg-streamer/mjpg-streamer-experimental && make && echo Done building mjpg-streamer" pi || exit 1
 
 # Move the simple stream page to index.html
-cd mjpg-streamer/mjpg-streamer-experimental
+cd /home/pi/mjpg-streamer/mjpg-streamer-experimental
 mv www/index.html www/index.html.old
 cp www/stream_simple.html www/index.html
 
 # Install script files
-cp -a $DIR/../res/mjpg-streamer.init /etc/init.d/mjpg-streamer
+cp -a $DIR/res/mjpg-streamer.init /etc/init.d/mjpg-streamer
 chmod +x /etc/init.d/mjpg-streamer
-cp -a $DIR/../res/mjpg_streamer.sh /home/pi
+cp -a $DIR/res/mjpg_streamer.sh /home/pi
 chmod a+rwx /home/pi/mjpg_streamer.sh
 update-rc.d mjpg-streamer defaults
 
 # Copy the key press script and make it start at boot 
-cp -a $DIR/../res/shutdown_button.py /home/pi
+cp -a $DIR/res/shutdown_button.py /home/pi
 awk '$0 == "exit 0" && c == 0 {c = 1; print "# Poll shutdown button\n/home/pi/shutdown_button.py &\n"}; {print}'  /etc/rc.local > /etc/rc.local
 
 # TODO set up tmpfs folders for common write folder to save SD-writes
 
 # Done, restart
 sync
-restart
+reboot
