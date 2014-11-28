@@ -117,7 +117,7 @@ do_change_hostname
 aptitude -y install libjpeg8-dev cmake || exit 1
 
 # Build mjpg-streamer (as user pi)
-su -c "cd && git clone https://github.com/jacksonliam/mjpg-streamer.git && cd mjpg-streamer/mjpg-streamer-experimental && make && echo Done building mjpg-streamer" pi || exit 1
+su -c "cd && git clone https://github.com/mtroback/mjpg-streamer.git && cd mjpg-streamer/mjpg-streamer-experimental && make && echo Done building mjpg-streamer" pi || exit 1
 
 # Move the simple stream page to index.html
 cd /home/pi/mjpg-streamer/mjpg-streamer-experimental
