@@ -122,7 +122,7 @@ su -c "cd && git clone https://github.com/jacksonliam/mjpg-streamer.git && cd mj
 # Move the simple stream page to index.html
 cd /home/pi/mjpg-streamer/mjpg-streamer-experimental
 mv www/index.html www/index.html.old
-cp www/stream_simple.html www/index.html
+cp -a $DIR/res/ircam_index.html www/index.html
 
 # Install script files
 cp -a $DIR/res/mjpg-streamer.init /etc/init.d/mjpg-streamer
